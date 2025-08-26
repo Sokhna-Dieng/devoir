@@ -1,87 +1,31 @@
-name: CI/CD Angular → Docker Hub
-
+name: CI/CD Angular with Docker
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
-
+    branches:
+      - main   # ou master selon ta branche
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    steps:
+      # 1. Récupérer le code
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-  permissions:
-    contents: read
+      # 2. Login Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-
-  steps:
-  - name: Checkout
-    uses: actions/checkout@v4
-
-  - name: Use Node 18
-    uses: actions/setup-node@v4
-    with:
-      node-version: 18
-      cache: 'npm'
-
-
-  - name: Install deps
-    run: npm ci
-
-
-  - name: Angular build (prod)
-    run: npx ng build --configuration production
-
-
-  - name: Set up Docker Buildx
-    uses: docker/setup-buildx-action@v3
-
-
-  - name: Login to Docker Hub
-    uses: docker/login-action@v3
-    with:
-      username: ${{ secrets.DOCKERHUB_USERNAME }}
-      password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-
-  - name: Build and push
-    uses: docker/build-push-action@v6
-    with:
-      context: .
-      file: docker/Dockerfile
-      push: true
-      tags: |
-        sokhnadiba/m1iage:latest
-        sokhnadiba/m1iage:${{ github.sha }}
-      cache-from: type=registry,ref=sokhnadiba/m1iage:latest
-      cache-to: type=inline
-
-
-# # Déploiement optionnel par SSH (voir section 6 avant d’activer)
-# deploy:
-# if: ${{ github.ref == 'refs/heads/main' }}
-# needs: build-and-push
-# runs-on: ubuntu-latest
-# environment: production
-# steps:
-# - name: Deploy over SSH
-# uses: appleboy/ssh-action@v1.2.0
-# with:
-# host: ${{ secrets.DEPLOY_HOST }}
-# username: ${{ secrets.DEPLOY_USER }}
-# key: ${{ secrets.DEPLOY_SSH_KEY }}
-# script: |
-# docker pull sokhnadiba/m1iage:latest
-# docker network create m1iage_net || true
-# docker volume create angular_nginx_logs || true
-# docker rm -f m1iage_web || true
-# docker run -d --name m1iage_web \
-# --restart unless-stopped \
-# -p 80:80 \
-# --network m1iage_net \
-# -v angular_nginx_logs:/var/log/nginx \
-# sokhnadiba/m1iage:latest
+      # 3. Build et Push l'image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          tags: sokhnadieng/angular-app:latest

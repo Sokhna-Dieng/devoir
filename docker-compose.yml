@@ -1,24 +1,16 @@
 version: "3.8"
-
-
 services:
-  web:
-    image: sokhnadiba/m1iage:latest
-    container_name: m1iage_web
+  angular-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: sokhnadieng/angular-app:latest
     ports:
-      - "8080:80" # http://localhost:8080
-    restart: unless-stopped
-    # Volumes optionnels (logs)
+      - "8080:80"
     volumes:
-      - nginx_logs:/var/log/nginx
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
-      - m1iage_net
-
-
-volumes:
-  nginx_logs:
-
+      - angular_net
 
 networks:
-  m1iage_net:
-    driver: bridge
+  angular_net:
