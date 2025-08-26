@@ -1,0 +1,32 @@
+{
+    "users":[
+        {
+        "id":1,
+        "nom":"Ndiaye",
+        "prenom":"Ahmeth",
+        "age":33
+        },
+        {
+            "id":2,
+            "nom":"Diop",
+            "prenom":"Soda",
+            "age":20
+        }
+    ],
+
+    "roles":[
+        {
+            "id":0,
+            "libelle":"asdf"
+        }
+    ],
+    "produits":[
+        {
+            "id":1,
+            "libelle":"lait",
+            "quantite":2,
+            "prix":150,
+            "categorie":"alimentaire"
+        }
+    ]
+}

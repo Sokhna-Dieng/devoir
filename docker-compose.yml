@@ -1,0 +1,24 @@
+version: "3.8"
+
+
+services:
+  web:
+    image: sokhnadiba/m1iage:latest
+    container_name: m1iage_web
+    ports:
+      - "8080:80" # http://localhost:8080
+    restart: unless-stopped
+    # Volumes optionnels (logs)
+    volumes:
+      - nginx_logs:/var/log/nginx
+    networks:
+      - m1iage_net
+
+
+volumes:
+  nginx_logs:
+
+
+networks:
+  m1iage_net:
+    driver: bridge

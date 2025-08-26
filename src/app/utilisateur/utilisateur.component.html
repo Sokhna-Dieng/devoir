@@ -1,0 +1,46 @@
+<div class="col-md-8 offset-2 mt-5">
+    
+    <button class="btn btn-success">ADD</button>
+    <h1>Liste des utilisateurs</h1>
+    <div class="card mt-5">
+        <div class="card-header">Formulaire</div>
+        <div class="card-body">
+             <label for="">Nom</label>
+            <input type="text" class="form-control" [(ngModel)]="user.nom" required>
+            <label for="">Prenom</label>
+            <input type="text" class="form-control" [(ngModel)]="user.prenom" required>
+            <label for="">Age</label>
+            <input type="number" class="form-control" [(ngModel)]="user.age" required>
+            <br>
+            <button class="btn btn-success" (click)="addUser()">{{this.user.id !=0 ? 'Modifier' : 'Valider'}}</button>
+         
+        </div>
+    </div>
+    <label for="">Rechercher</label>
+    <input type="text" class="form-control"  [(ngModel)]="valueSearch"> 
+    <table class="table table-bordered mt-5">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Age</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of users | filtreUser:this.valueSearch; index as i" [ngClass]="{orange:i%2===0,vert: i}">
+               
+                        <td>{{p.id}}</td>
+                        <td>{{p.nom |uppercase}}</td>
+                        <td>{{p.prenom |titlecase }}</td>
+                        <td>{{p.age}}</td>
+                        <td>
+                            <button class="btn btn-danger" (click)="deleteUser(p.id)">Delete</button>
+                            <button class="btn btn-primary" (click)="recharge(p)">Update</button>
+                        </td>
+              
+            </tr>
+        </tbody>
+    </table>
+</div>

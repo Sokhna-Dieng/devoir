@@ -1,0 +1,63 @@
+<div class="col-md-8 offset-2 mt-5">
+    
+    <button class="btn btn-success">Ajouter un produit</button>
+    <h1>Liste des produits</h1>
+    <div class="card mt-5">
+        <div class="card-header">Formulaire</div>
+         <div class="card-body">
+              <div>
+                <label for="">Libellé :</label>
+                <input type="text" class="form-control" [(ngModel)]="produit.libelle" name="libelle" required />
+              </div>
+  
+              <div>
+                <label>Quantité :</label>
+                <input type="number" class="form-control" [(ngModel)]="produit.quantite" name="quantite" required />
+              </div>
+          
+              <div>
+                <label>Prix :</label>
+                <input type="number" class="form-control" [(ngModel)]="produit.prix" name="prix" required />
+              </div>
+          
+              <div>
+                <label>Catégorie :</label>
+                <select class="form-control" [(ngModel)]="produit.categorie" name="categorie">
+                  <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                </select>
+              </div>
+          
+              <br>
+              <button class="btn btn-success"(click)="addProduit()">{{this.produit.id !=0 ? 'Modifier' : 'Valider'}}</button>
+            </div>
+      </div>
+    <label for="">Rechercher</label>
+    <input type="text" class="form-control" [(ngModel)]="valueSearch" > 
+    <table class="table table-bordered mt-5">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Libelle</th>
+            <th scope="col">Quantite</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Categorie</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pro of produits | filtreProduit:this.valueSearch;; index as i" [ngClass]="{orange:i%2===0,vert: i}">
+               
+                        <td>{{pro.id}}</td>
+                        <td>{{pro.libelle |uppercase}}</td>
+                        <td>{{pro.quantite }}</td>
+                        <td>{{pro.prix}}</td>
+                        <td>{{pro.categorie|titlecase}}</td>
+                        <td>
+                          <button class="btn btn-danger" (click)="deleteProduit(pro.id)">Delete</button>
+                          <button class="btn btn-primary" (click)="recharge(pro)">Update</button>
+                        </td>
+              
+            </tr>
+        </tbody>
+    </table>
+</div>

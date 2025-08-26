@@ -1,0 +1,39 @@
+<div class="col-md-8 offset-2 mt-5">
+    
+    <button class="btn btn-success">ADD</button>
+    <h1>Liste des roles</h1>
+    <div class="card mt-5">
+        <div class="card-header">Formulaire</div>
+        <div class="card-body">
+             <label for="">Libelle</label>
+            <input type="text" class="form-control" [(ngModel)]="part.libelle" required>
+        
+            <br>
+            <button class="btn btn-success" (click)="addPart()">{{this.part.id !=0 ? 'Modifier' : 'Valider'}}</button>
+         
+        </div>
+    </div>
+    <label for="">Rechercher</label>
+    <input type="text" class="form-control"  [(ngModel)]="valueSearch"> 
+    <table class="table table-bordered mt-5">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Libelle</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pa of parts | filtrePart:this.valueSearch; index as i" [ngClass]="{orange:i%2===0,vert: i}">
+               
+                        <td>{{pa.id}}</td>
+                        <td>{{pa.libelle |titlecase }}</td>
+                        <td>
+                            <button class="btn btn-danger" (click)="deletePart(pa.id)">Delete</button>
+                            <button class="btn btn-primary" (click)="rechargerPart(pa)">Update</button>
+                        </td>
+              
+            </tr>
+        </tbody>
+    </table>
+</div>
