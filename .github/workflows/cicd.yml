@@ -42,4 +42,4 @@ jobs:
           context: .
           file: docker/Dockerfile
           push: true
-          tags: sokhnadieng/angular-app:latest
+          tags: sokhnadiba/angular-app:latest
